@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -31,7 +32,6 @@ import info.rajmundstaniek.neurofeedback.businessLogic.TgReaderSingleton;
 public class DevicesFragment extends Fragment {
 
     private ListView listView;
-    private ArrayList<String> mDeviceList = new ArrayList<>();
     private BluetoothAdapter mBluetoothArapter;
     private Set<BluetoothDevice> mBluetoothDevices = null;
 
@@ -55,12 +55,12 @@ public class DevicesFragment extends Fragment {
         else{
             if(mBluetoothArapter.isEnabled()){
                 mBluetoothDevices = mBluetoothArapter.getBondedDevices();
-
+                deviceListAdapter = new BluetoothDeviceListAdapter(view.getContext());
                 for(BluetoothDevice device : mBluetoothDevices){
-                    mDeviceList.add(device.getName() + "\n" + device.getAddress());
+                    deviceListAdapter.addDevice(device);
                 }
 
-                listView.setAdapter(new ArrayAdapter<String>(view.getContext(), android.R.layout.simple_list_item_1, mDeviceList));
+                listView.setAdapter(deviceListAdapter);
             }
             else{
                 Toast.makeText(view.getContext(), R.string.err_bt_not_enabled, Toast.LENGTH_SHORT).show();
