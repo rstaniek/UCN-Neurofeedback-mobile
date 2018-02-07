@@ -1,4 +1,4 @@
-package info.rajmundstaniek.bottomnavtut;
+package info.rajmundstaniek.neurofeedback;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -9,9 +9,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import info.rajmundstaniek.bottomnavtut.navBar.fragments.ChartsFragment;
-import info.rajmundstaniek.bottomnavtut.navBar.fragments.DevicesFragment;
-import info.rajmundstaniek.bottomnavtut.navBar.fragments.HomeFragment;
+import info.rajmundstaniek.neurofeedback.navBar.fragments.ChartsFragment;
+import info.rajmundstaniek.neurofeedback.navBar.fragments.DevicesFragment;
+import info.rajmundstaniek.neurofeedback.navBar.fragments.HomeFragment;
 
 public class MainActivity
         extends AppCompatActivity

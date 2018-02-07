@@ -1,4 +1,4 @@
-package info.rajmundstaniek.bottomnavtut.navBar.fragments;
+package info.rajmundstaniek.neurofeedback.navBar.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -7,7 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import info.rajmundstaniek.bottomnavtut.R;
+import info.rajmundstaniek.neurofeedback.R;
 
 /**
  * Created by rajmu on 07.02.2018.

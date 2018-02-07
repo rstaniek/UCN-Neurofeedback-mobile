@@ -1,4 +1,4 @@
-package info.rajmundstaniek.bottomnavtut;
+package info.rajmundstaniek.neurofeedback;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

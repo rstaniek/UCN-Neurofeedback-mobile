@@ -1,16 +1,10 @@
-package info.rajmundstaniek.bottomnavtut.navBar.fragments;
+package info.rajmundstaniek.neurofeedback.navBar.fragments;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.annotation.StringDef;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +15,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Set;
 
-import info.rajmundstaniek.bottomnavtut.R;
+import info.rajmundstaniek.neurofeedback.R;
 
 /**
  * Created by rajmu on 07.02.2018.
