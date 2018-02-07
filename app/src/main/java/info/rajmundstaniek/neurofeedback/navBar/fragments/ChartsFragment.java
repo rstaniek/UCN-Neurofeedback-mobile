@@ -21,4 +21,6 @@ public class ChartsFragment extends Fragment {
         //return super.onCreateView(inflater, container, savedInstanceState);
         return inflater.inflate(R.layout.fragment_charts, null);
     }
+
+    //TODO: initialize connection and start receiving data.
 }
