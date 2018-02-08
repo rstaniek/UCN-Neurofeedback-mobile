@@ -16,7 +16,11 @@ public class NeuroEventDispatcher {
 
     public void post(Object sender, NeuroEventArgs e){
         for (NeuroServiceListener listener : listeners){
-            listener.OnMessageReceived(sender, e);
+            try{
+                listener.OnMessageReceived(sender, e);
+            } catch (Exception ex){
+                // TODO: 08.02.2018 Handle exception
+            }
         }
     }
 }
