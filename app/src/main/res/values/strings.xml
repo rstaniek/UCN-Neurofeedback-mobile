@@ -10,4 +10,6 @@
     <!-- errors -->
     <string name="err_bt_not_supported">Bluetooth connectivity is not supported on this device!</string>
     <string name="err_bt_not_enabled">Bluetooth turned off. Please turn on Bluetooth connectivity</string>
+    <string name="btn_start">Start</string>
+    <string name="btn_stop">Stop</string>
 </resources>

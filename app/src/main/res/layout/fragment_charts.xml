@@ -1,11 +1,114 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent" android:layout_height="match_parent">
+
     <TextView
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
+        android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/title_charts"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"/>
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="14dp"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+        android:text="Meditation: " />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/textView2"
+        android:layout_below="@+id/textView2"
+        android:layout_marginTop="14dp"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+        android:text="Attention: " />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/textView4"
+        android:layout_below="@+id/textView4"
+        android:layout_marginTop="14dp"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+        android:text="Delta: " />
+
+    <TextView
+        android:id="@+id/textMeditationVal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/textView4"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+        android:layout_toEndOf="@+id/textView2" />
+
+    <TextView
+        android:id="@+id/textAttentionVal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/textView4"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+        android:layout_toEndOf="@+id/textView4" />
+
+    <TextView
+        android:id="@+id/textDeltaVal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/textView3"
+        android:layout_alignBottom="@+id/textView3"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+        android:layout_toEndOf="@+id/textView3" />
+
+    <ImageButton
+        android:id="@+id/btnStart_img"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        android:backgroundTint="@android:color/transparent"
+        android:contentDescription="Play"
+        android:tint="@color/colorPrimary"
+        app:srcCompat="@drawable/ic_play_circle_filled_black_48dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignStart="@+id/textView" />
+
+    <ImageButton
+        android:id="@+id/btnStop_img"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/btnStart_img"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="10dp"
+        android:backgroundTint="@android:color/transparent"
+        android:tint="@color/colorPrimary"
+        app:srcCompat="@drawable/ic_pause_circle_filled_black_48dp" />
+
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/textView3"
+        android:layout_centerVertical="true"
+        android:text="Raw: " />
+
+    <TextView
+        android:id="@+id/textRawVal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/textView9"
+        android:layout_toEndOf="@+id/textView9" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/textView9"
+        android:layout_below="@+id/textView9"
+        android:layout_marginTop="15dp"
+        android:text="Signal errors: " />
+
+    <TextView
+        android:id="@+id/textSignalErrVal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/textView"
+        android:layout_toEndOf="@+id/textView" />
 </RelativeLayout>

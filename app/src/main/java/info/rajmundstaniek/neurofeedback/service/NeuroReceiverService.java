@@ -1,6 +1,7 @@
 package info.rajmundstaniek.neurofeedback.service;
 
 import android.app.IntentService;
+import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -35,7 +36,7 @@ public class NeuroReceiverService extends IntentService {
         SERVICE_DISCONNECT
     }
 
-    private Handler uiHandler;
+    //private Handler uiHandler;
     private int headsetCurrentState;
     private boolean isReadFilter;
     private static final int MSG_UPDATE_BAD_PACKET = 1001;
@@ -80,6 +81,9 @@ public class NeuroReceiverService extends IntentService {
                     break;
                 case ConnectionStates.STATE_FAILED:
                     Log.d(TAG,"Connect failed, Please try again!");
+                    tgStreamReader.close();
+                    tgStreamReader.stop();
+                    tgStreamReader = null;
                     break;
             }
             Message msg = linkDetectedHandler.obtainMessage();
@@ -187,11 +191,13 @@ public class NeuroReceiverService extends IntentService {
 
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
-        if(intent != null){
+        /*if(intent != null){
             synchronized (this){
                 badPacketCount = 0;
                 Log.i(TAG, "Initializing TgStreamReader");
-                BluetoothDevice device = TgReaderSingleton.getInstance().getDevice();
+                BluetoothDevice device = BluetoothAdapter.getDefaultAdapter()
+                        .getRemoteDevice(TgReaderSingleton.getInstance()
+                                .getDevice().getAddress());
                 if(tgStreamReader == null){
                     tgStreamReader = new TgStreamReader(device, handler);
                     tgStreamReader.startLog();
@@ -203,19 +209,19 @@ public class NeuroReceiverService extends IntentService {
                     tgStreamReader.connectAndStart();
                 }
             }
-        }
+        }*/
     }
 
     @Override
     public int onStartCommand(@Nullable Intent intent, int flags, int startId) {
-        uiHandler = new Handler();
-        uiHandler.post(new Runnable() {
+        //uiHandler = new Handler();
+        /*uiHandler.post(new Runnable() {
             @Override
             public void run() {
                 Toast.makeText(getApplicationContext(), R.string.headset_connecting,
                         Toast.LENGTH_SHORT).show();
             }
-        });
+        });*/
         return super.onStartCommand(intent, flags, startId);
     }
 

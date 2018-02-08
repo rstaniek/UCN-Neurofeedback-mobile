@@ -18,7 +18,6 @@ import java.util.Set;
 import info.rajmundstaniek.neurofeedback.R;
 import info.rajmundstaniek.neurofeedback.businessLogic.BluetoothDeviceListAdapter;
 import info.rajmundstaniek.neurofeedback.businessLogic.TgReaderSingleton;
-import info.rajmundstaniek.neurofeedback.service.NeuroReceiverService;
 
 /**
  * Created by rajmu on 07.02.2018.
@@ -76,8 +75,8 @@ public class DevicesFragment extends Fragment {
             BluetoothDevice remoteDevice = mBluetoothArapter.getRemoteDevice(deviceAddress);
 
             TgReaderSingleton.getInstance().setDevice(remoteDevice);
-            mIntent = new Intent(getActivity(), NeuroReceiverService.class);
-            getActivity().startService(mIntent);
+            /*mIntent = new Intent(getActivity(), NeuroReceiverService.class);
+            getActivity().startService(mIntent);*/
         }
     };
 }
