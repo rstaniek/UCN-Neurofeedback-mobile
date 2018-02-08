@@ -5,6 +5,7 @@
     <string name="title_charts">Charts</string>
 
     <string name="device_selected">Device selected. Go to charts section to see the output</string>
+    <string name="headset_connecting">Connecting…</string>
 
     <!-- errors -->
     <string name="err_bt_not_supported">Bluetooth connectivity is not supported on this device!</string>

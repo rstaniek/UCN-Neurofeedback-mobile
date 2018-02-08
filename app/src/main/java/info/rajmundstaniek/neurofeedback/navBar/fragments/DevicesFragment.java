@@ -2,8 +2,6 @@ package info.rajmundstaniek.neurofeedback.navBar.fragments;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,18 +10,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.Set;
 
-import info.rajmundstaniek.neurofeedback.MainActivity;
 import info.rajmundstaniek.neurofeedback.R;
 import info.rajmundstaniek.neurofeedback.businessLogic.BluetoothDeviceListAdapter;
 import info.rajmundstaniek.neurofeedback.businessLogic.TgReaderSingleton;
+import info.rajmundstaniek.neurofeedback.service.NeuroReceiverService;
 
 /**
  * Created by rajmu on 07.02.2018.
@@ -37,6 +32,7 @@ public class DevicesFragment extends Fragment {
 
     private BluetoothDeviceListAdapter deviceListAdapter;
     private String deviceAddress;
+    private Intent mIntent;
 
     @Nullable
     @Override
@@ -80,6 +76,8 @@ public class DevicesFragment extends Fragment {
             BluetoothDevice remoteDevice = mBluetoothArapter.getRemoteDevice(deviceAddress);
 
             TgReaderSingleton.getInstance().setDevice(remoteDevice);
+            mIntent = new Intent(getActivity(), NeuroReceiverService.class);
+            getActivity().startService(mIntent);
         }
     };
 }

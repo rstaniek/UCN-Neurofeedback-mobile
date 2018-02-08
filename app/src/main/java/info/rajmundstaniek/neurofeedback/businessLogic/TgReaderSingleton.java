@@ -5,6 +5,8 @@ import android.bluetooth.BluetoothDevice;
 import com.neurosky.connection.TgStreamHandler;
 import com.neurosky.connection.TgStreamReader;
 
+import info.rajmundstaniek.neurofeedback.service.NeuroEventDispatcher;
+
 /**
  * Created by rajmu on 07.02.2018.
  */
@@ -44,5 +46,15 @@ public class TgReaderSingleton {
 
     public void setDevice(BluetoothDevice device) {
         this.device = device;
+    }
+
+    private NeuroEventDispatcher neuroEventDispatcher;
+
+    public NeuroEventDispatcher getNeuroEventDispatcher() {
+        return neuroEventDispatcher;
+    }
+
+    public void setNeuroEventDispatcher(NeuroEventDispatcher neuroEventDispatcher) {
+        this.neuroEventDispatcher = neuroEventDispatcher;
     }
 }
