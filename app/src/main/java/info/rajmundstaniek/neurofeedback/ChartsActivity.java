@@ -23,6 +23,7 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -81,9 +82,8 @@ public class ChartsActivity extends AppCompatActivity {
     private TextView  tv_middlegamma  = null;
     private TextView  tv_badpacket = null;
 
-    private Button btn_start = null;
-    private Button btn_stop = null;
-    private Button btn_selectdevice = null;
+    private ImageButton btn_start = null;
+    private ImageButton btn_stop = null;
     private LinearLayout wave_layout;
 
     private int badPacketCount = 0;
@@ -105,8 +105,8 @@ public class ChartsActivity extends AppCompatActivity {
         tv_badpacket = (TextView) findViewById(R.id.tv_badpacket);
 
 
-        btn_start = (Button) findViewById(R.id.btn_start);
-        btn_stop = (Button) findViewById(R.id.btn_stop);
+        btn_start = (ImageButton) findViewById(R.id.btn_start);
+        btn_stop = (ImageButton) findViewById(R.id.btn_stop);
         wave_layout = (LinearLayout) findViewById(R.id.wave_layout);
 
         btn_start.setOnClickListener(new OnClickListener() {
@@ -126,17 +126,6 @@ public class ChartsActivity extends AppCompatActivity {
                 if(tgStreamReader != null){
                     tgStreamReader.stop();
                 }
-            }
-
-        });
-
-        btn_selectdevice =  (Button) findViewById(R.id.btn_selectdevice);
-
-        btn_selectdevice.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View arg0) {
-                scanDevice();
             }
 
         });
@@ -363,88 +352,6 @@ public class ChartsActivity extends AppCompatActivity {
     }
 
     private BluetoothDeviceListAdapter deviceListApapter = null;
-    private Dialog selectDialog;
-
-    // (3) Demo of getting Bluetooth device dynamically
-    public void scanDevice(){
-
-        if(mBluetoothAdapter.isDiscovering()){
-            mBluetoothAdapter.cancelDiscovery();
-        }
-
-        setUpDeviceListView();
-        //register the receiver for scanning
-        IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
-        this.registerReceiver(mReceiver, filter);
-
-        mBluetoothAdapter.startDiscovery();
-    }
-
-    private void setUpDeviceListView(){
-
-        LayoutInflater inflater = LayoutInflater.from(this);
-        View view = inflater.inflate(R.layout.dialog_select_device, null);
-        ListView list_select = (ListView) view.findViewById(R.id.list_select);
-        selectDialog = new Dialog(this, R.style.dialog1);
-        selectDialog.setContentView(view);
-        //List device dialog
-
-        deviceListApapter = new BluetoothDeviceListAdapter(this);
-        list_select.setAdapter(deviceListApapter);
-        list_select.setOnItemClickListener(selectDeviceItemClickListener);
-
-        selectDialog.setOnCancelListener(new OnCancelListener(){
-
-            @Override
-            public void onCancel(DialogInterface arg0) {
-                // TODO Auto-generated method stub
-                Log.e(TAG,"onCancel called!");
-                ChartsActivity.this.unregisterReceiver(mReceiver);
-            }
-
-        });
-
-        selectDialog.show();
-
-        Set<BluetoothDevice> pairedDevices = mBluetoothAdapter.getBondedDevices();
-        for(BluetoothDevice device: pairedDevices){
-            deviceListApapter.addDevice(device);
-        }
-        deviceListApapter.notifyDataSetChanged();
-    }
-
-    //Select device operation
-    private OnItemClickListener selectDeviceItemClickListener = new OnItemClickListener(){
-
-        @Override
-        public void onItemClick(AdapterView<?> arg0, View arg1,int arg2, long arg3) {
-            // TODO Auto-generated method stub
-            Log.d(TAG, "Rico ####  list_select onItemClick     ");
-            if(mBluetoothAdapter.isDiscovering()){
-                mBluetoothAdapter.cancelDiscovery();
-            }
-            //unregister receiver
-            ChartsActivity.this.unregisterReceiver(mReceiver);
-
-            BluetoothDevice mBluetoothDevice = deviceListApapter.getDevice(arg2);
-            selectDialog.dismiss();
-            selectDialog = null;
-
-            Log.d(TAG,"onItemClick name: "+ mBluetoothDevice.getName() + " , address: " + mBluetoothDevice.getAddress() );
-
-            //ger remote device
-            BluetoothDevice remoteDevice = mBluetoothAdapter.getRemoteDevice(mBluetoothDevice.getAddress().toString());
-
-            //bind and connect
-            //bindToDevice(remoteDevice); // create bond works unstable on Samsung S5
-            //showToast("pairing ...",Toast.LENGTH_SHORT);
-
-            tgStreamReader = createStreamReader(remoteDevice);
-            tgStreamReader.connectAndStart();
-
-        }
-
-    };
 
     /**
      * If the TgStreamReader is created, just change the bluetooth
