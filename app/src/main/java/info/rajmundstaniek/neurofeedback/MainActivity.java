@@ -1,5 +1,6 @@
 package info.rajmundstaniek.neurofeedback;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -55,6 +56,8 @@ public class MainActivity
             case R.id.navigation_notifications:
                 fragment = new ChartsFragment();
                 toolbar.setTitle(R.string.title_charts);
+                Intent intent = new Intent(this, ChartsActivity.class);
+                startActivity(intent);
                 break;
         }
 
