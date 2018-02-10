@@ -77,6 +77,7 @@ public class DevicesFragment extends Fragment {
             TgReaderSingleton.getInstance().setDevice(remoteDevice);
             /*mIntent = new Intent(getActivity(), NeuroReceiverService.class);
             getActivity().startService(mIntent);*/
+            Toast.makeText(getContext(), R.string.device_selected, Toast.LENGTH_SHORT).show();
         }
     };
 }

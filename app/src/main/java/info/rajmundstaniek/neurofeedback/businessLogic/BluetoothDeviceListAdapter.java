@@ -70,6 +70,7 @@ public class BluetoothDeviceListAdapter extends BaseAdapter {
             viewHolder.img1 = (ImageView) view.findViewById(R.id.img1);
             viewHolder.img2 = (ImageView) view.findViewById(R.id.img2);
             viewHolder.deviceName = (TextView) view.findViewById(R.id.device_name);
+            viewHolder.deviceAddress = (TextView) view.findViewById(R.id.device_address);
             view.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) view.getTag();
@@ -79,10 +80,15 @@ public class BluetoothDeviceListAdapter extends BaseAdapter {
         final String deviceName = device.getName();
         String deviceAddress = device.getAddress();
         viewHolder.img2.setVisibility(View.GONE);
-        if (deviceName != null && deviceName.length() > 0)
-            viewHolder.deviceName.setText(deviceName + ", " + deviceAddress);
-        else
-            viewHolder.deviceName.setText( "No name, " + deviceAddress);
+        if (deviceName != null && deviceName.length() > 0) {
+            viewHolder.deviceName.setText(deviceName);
+            viewHolder.deviceAddress.setText(deviceAddress);
+        }
+        else {
+            viewHolder.deviceName.setText(R.string.bt_device_unknown);
+            viewHolder.deviceAddress.setText(deviceAddress);
+        }
+
 
         return view;
     }
@@ -90,5 +96,6 @@ public class BluetoothDeviceListAdapter extends BaseAdapter {
         ImageView img1;
         ImageView img2;
         TextView deviceName;
+        TextView deviceAddress;
     }
 }

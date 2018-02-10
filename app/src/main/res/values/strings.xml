@@ -4,12 +4,20 @@
     <string name="title_devices">Devices</string>
     <string name="title_charts">Charts</string>
 
-    <string name="device_selected">Device selected. Go to charts section to see the output</string>
+    <string name="device_selected">Device selected. Go to charts section to start capturing data</string>
     <string name="headset_connecting">Connecting…</string>
 
     <!-- errors -->
     <string name="err_bt_not_supported">Bluetooth connectivity is not supported on this device!</string>
     <string name="err_bt_not_enabled">Bluetooth turned off. Please turn on Bluetooth connectivity</string>
+    <string name="bt_device_unknown">DEVICE UNKNOWN</string>
+
+
     <string name="btn_start">Start</string>
     <string name="btn_stop">Stop</string>
+
+    <!--home screen introduction-->
+    <string name="home_intr_1">Step #1: Pair your MindWave headset with your phone bluetooth.</string>
+    <string name="home_intr_2">step #2: Go to \'Devices\' tab and select the headset from the list.</string>
+    <string name="name_intr_3">Step #3: Switch to \'Charts\' tab and tap Play to start capturing data.</string>
 </resources>
