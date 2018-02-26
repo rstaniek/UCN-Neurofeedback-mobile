@@ -12,6 +12,11 @@
         android:title="@string/title_devices" />
 
     <item
+        android:id="@+id/navigation_sessions"
+        android:icon="@drawable/ic_people_outline_black_24dp"
+        android:title="@string/title_sessions" />
+
+    <item
         android:id="@+id/navigation_notifications"
         android:icon="@drawable/ic_show_chart_black_24dp"
         android:title="@string/title_charts" />

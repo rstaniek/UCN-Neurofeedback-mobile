@@ -8,12 +8,14 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.view.WindowManager;
 import android.widget.TextView;
 
 import info.rajmundstaniek.neurofeedback.businessLogic.TgReaderSingleton;
 import info.rajmundstaniek.neurofeedback.navBar.fragments.ChartsFragment;
 import info.rajmundstaniek.neurofeedback.navBar.fragments.DevicesFragment;
 import info.rajmundstaniek.neurofeedback.navBar.fragments.HomeFragment;
+import info.rajmundstaniek.neurofeedback.navBar.fragments.SessionFragment;
 import info.rajmundstaniek.neurofeedback.service.NeuroEventDispatcher;
 
 public class MainActivity
@@ -32,6 +34,8 @@ public class MainActivity
         toolbar = getSupportActionBar();
         toolbar.setTitle(R.string.title_home);
         loadFragment(new HomeFragment());
+
+        //getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(this);
@@ -54,11 +58,12 @@ public class MainActivity
                 toolbar.setTitle(R.string.title_devices);
                 break;
             case R.id.navigation_notifications:
-                fragment = new ChartsFragment();
-                toolbar.setTitle(R.string.title_charts);
                 Intent intent = new Intent(this, ChartsActivity.class);
                 startActivity(intent);
                 break;
+            case R.id.navigation_sessions:
+                fragment = new SessionFragment();
+                toolbar.setTitle(R.string.title_sessions);
         }
 
         return loadFragment(fragment);

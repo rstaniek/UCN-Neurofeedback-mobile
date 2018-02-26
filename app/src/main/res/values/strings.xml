@@ -3,6 +3,7 @@
     <string name="title_home">UCN Neurofeedback</string>
     <string name="title_devices">Devices</string>
     <string name="title_charts">Charts</string>
+    <string name="title_sessions">Sessions</string>
 
     <string name="device_selected">Device selected. Go to charts section to start capturing data</string>
     <string name="headset_connecting">Connecting…</string>
