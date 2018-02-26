@@ -1,6 +1,10 @@
 package info.rajmundstaniek.neurofeedback;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
@@ -13,6 +17,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,11 +40,13 @@ import com.neurosky.connection.TgStreamHandler;
 import com.neurosky.connection.TgStreamReader;
 
 import java.lang.reflect.Method;
+import java.sql.Timestamp;
 import java.util.Set;
 
 import info.rajmundstaniek.neurofeedback.businessLogic.BluetoothDeviceListAdapter;
 import info.rajmundstaniek.neurofeedback.businessLogic.TgReaderSingleton;
 import info.rajmundstaniek.neurofeedback.businessLogic.Utils;
+import info.rajmundstaniek.neurofeedback.navBar.fragments.ChartsFragment;
 
 import static com.neurosky.connection.DataType.MindDataType.CODE_ATTENTION;
 import static com.neurosky.connection.DataType.MindDataType.CODE_EEGPOWER;
@@ -62,6 +69,10 @@ public class ChartsActivity extends AppCompatActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         setContentView(R.layout.activity_charts);
+
+        lastCheckedForNetworkTroubles = new Timestamp(System.currentTimeMillis());
+        notification = new NotificationCompat.Builder(this);
+        notification.setAutoCancel(true);
 
         initView();
         setUpDrawWaveView();
@@ -252,6 +263,7 @@ public class ChartsActivity extends AppCompatActivity {
     private static final int MSG_UPDATE_STATE = 1002;
     private boolean isReadFilter = false;
 
+    @SuppressLint("HandlerLeak")
     private Handler LinkDetectedHandler = new Handler() {
 
         @Override
@@ -324,6 +336,9 @@ public class ChartsActivity extends AppCompatActivity {
                     break;
                 case CODE_POOR_SIGNAL://
                     int poorSignal = msg.arg1;
+                    if(poorSignal > 0){
+                        handlePoorSignalNotification(poorSignal);
+                    }
                     Log.d(TAG, "poorSignal:" + poorSignal);
                     tv_ps.setText(""+msg.arg1);
 
@@ -338,6 +353,35 @@ public class ChartsActivity extends AppCompatActivity {
             super.handleMessage(msg);
         }
     };
+
+    private Timestamp lastCheckedForNetworkTroubles;
+    private static final int NOTIF_ID_CONNECTION_ISSUES = 21371488;
+    private NotificationCompat.Builder notification;
+
+    private void handlePoorSignalNotification(int value){
+        Log.e(TAG, "Poor signal detected!");
+        //previous notification was dispatched at least 5 seconds ago
+        if(System.currentTimeMillis() - lastCheckedForNetworkTroubles.getTime() > 5000){
+            notification.setSmallIcon(R.drawable.ic_bluetooth_connected_black_24dp);
+            notification.setTicker("this is the ticker. WTF?!?!?!");
+            notification.setWhen(System.currentTimeMillis());
+            notification.setContentTitle("Headset connection error!");
+            notification.setContentText("UCN Neutofeedback is experiencing issues with headset signal.");
+            notification.setDefaults(Notification.DEFAULT_ALL);
+
+
+            Intent intent = new Intent(this, ChartsFragment.class);
+            PendingIntent pendingIntent = PendingIntent.getActivity(this, 0,
+                    intent, PendingIntent.FLAG_UPDATE_CURRENT);
+            notification.setContentIntent(pendingIntent);
+
+            NotificationManager notificationManager = (NotificationManager)
+                    getSystemService(Context.NOTIFICATION_SERVICE);
+            assert notificationManager != null;
+            notificationManager.notify(NOTIF_ID_CONNECTION_ISSUES, notification.build());
+            lastCheckedForNetworkTroubles = new Timestamp(System.currentTimeMillis());
+        }
+    }
 
 
     public void showToast(final String msg,final int timeStyle){
