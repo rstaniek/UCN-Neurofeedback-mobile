@@ -24,13 +24,6 @@
                 android:layout_centerHorizontal="true"
                 android:src="@drawable/ic_bluetooth_black_24dp" />
 
-            <ImageView
-                android:id="@+id/img2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:src="@drawable/ic_bluetooth_connected_black_24dp"
-                android:visibility="gone" />
         </RelativeLayout>
 
         <TextView

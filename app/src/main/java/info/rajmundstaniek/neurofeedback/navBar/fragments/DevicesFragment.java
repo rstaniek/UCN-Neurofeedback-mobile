@@ -10,9 +10,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.util.Arrays;
 import java.util.Set;
 
 import info.rajmundstaniek.neurofeedback.R;
@@ -51,6 +53,8 @@ public class DevicesFragment extends Fragment {
             if(mBluetoothArapter.isEnabled()){
                 mBluetoothDevices = mBluetoothArapter.getBondedDevices();
                 deviceListAdapter = new BluetoothDeviceListAdapter(view.getContext());
+                deviceListAdapter.itemToggled = new boolean[mBluetoothDevices.size()];
+                Arrays.fill(deviceListAdapter.itemToggled, false);
                 for(BluetoothDevice device : mBluetoothDevices){
                     deviceListAdapter.addDevice(device);
                 }
@@ -71,6 +75,17 @@ public class DevicesFragment extends Fragment {
             if(mBluetoothArapter.isDiscovering()){
                 mBluetoothArapter.cancelDiscovery();
             }
+
+            //TODO: doesn't mark the right image!!!! NEEDS A FIX
+            deviceListAdapter.itemToggled[position] = ! deviceListAdapter.itemToggled[position];
+            ImageView img = (ImageView) getView().findViewById(R.id.img1);
+            if(deviceListAdapter.itemToggled[position]){
+                img.setImageResource(R.drawable.ic_bluetooth_connected_black_24dp);
+            }
+            else{
+                img.setImageResource(R.drawable.ic_bluetooth_black_24dp);
+            }
+
             deviceAddress = deviceListAdapter.getDevice(position).getAddress();
             BluetoothDevice remoteDevice = mBluetoothArapter.getRemoteDevice(deviceAddress);
 

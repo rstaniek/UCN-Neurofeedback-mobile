@@ -1,10 +1,13 @@
 package info.rajmundstaniek.neurofeedback.businessLogic;
 
+import android.annotation.SuppressLint;
+import android.app.PendingIntent;
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -18,9 +21,13 @@ import info.rajmundstaniek.neurofeedback.R;
  */
 
 public class BluetoothDeviceListAdapter extends BaseAdapter {
+    public static final String TARGET_DEVICE_NAME = "MindWave Mobile";
+
     private LayoutInflater mInflator;
     private ArrayList<BluetoothDevice> mLeDevices;
     private Context mContext;
+
+    public boolean[] itemToggled = null;
 
     public BluetoothDeviceListAdapter(Context context) {
         super();
@@ -59,6 +66,7 @@ public class BluetoothDeviceListAdapter extends BaseAdapter {
         return i;
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
 
@@ -68,7 +76,6 @@ public class BluetoothDeviceListAdapter extends BaseAdapter {
             view = mInflator.inflate(R.layout.listitem_device, null);
             viewHolder = new ViewHolder();
             viewHolder.img1 = (ImageView) view.findViewById(R.id.img1);
-            viewHolder.img2 = (ImageView) view.findViewById(R.id.img2);
             viewHolder.deviceName = (TextView) view.findViewById(R.id.device_name);
             viewHolder.deviceAddress = (TextView) view.findViewById(R.id.device_address);
             view.setTag(viewHolder);
@@ -76,13 +83,25 @@ public class BluetoothDeviceListAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) view.getTag();
         }
 
+        if(itemToggled[i]){
+            viewHolder.img1.setImageResource(R.drawable.ic_bluetooth_connected_black_24dp);
+        }
+        else{
+            viewHolder.img1.setImageResource(R.drawable.ic_bluetooth_black_24dp);
+        }
         BluetoothDevice device = mLeDevices.get(i);
         final String deviceName = device.getName();
         String deviceAddress = device.getAddress();
-        viewHolder.img2.setVisibility(View.GONE);
-        if (deviceName != null && deviceName.length() > 0) {
-            viewHolder.deviceName.setText(deviceName);
-            viewHolder.deviceAddress.setText(deviceAddress);
+        if (deviceName != null && deviceName.length() > 0 && deviceAddress != null) {
+            if(deviceName.equals(TARGET_DEVICE_NAME)){
+                viewHolder.deviceName.setText(deviceName + " (" + deviceAddress
+                        .substring(12, deviceAddress.length()).replace(":", "") + ")");
+                viewHolder.deviceAddress.setText(deviceAddress);
+            }
+            else{
+                viewHolder.deviceName.setText(deviceName);
+                viewHolder.deviceAddress.setText(deviceAddress);
+            }
         }
         else {
             viewHolder.deviceName.setText(R.string.bt_device_unknown);
@@ -94,7 +113,6 @@ public class BluetoothDeviceListAdapter extends BaseAdapter {
     }
     static class ViewHolder {
         ImageView img1;
-        ImageView img2;
         TextView deviceName;
         TextView deviceAddress;
     }
