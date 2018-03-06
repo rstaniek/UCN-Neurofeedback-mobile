@@ -1,5 +1,7 @@
 package info.rajmundstaniek.azure.connection;
 
+import com.microsoft.azure.documentdb.DocumentClientException;
+
 import java.util.Dictionary;
 import java.util.List;
 import java.util.concurrent.Executor;
@@ -17,7 +19,7 @@ import info.rajmundstaniek.azure.model.Student;
 public interface ISessionRepository {
 
     void setClient();
-    void dbEndSession();
+    void dbEndSession(Session session) throws DocumentClientException;
     List<Session> dbGetAllSessions(boolean onlyActive);
     Session dbFindSession(String sessionId);
 
