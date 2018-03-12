@@ -7,10 +7,13 @@ import com.microsoft.azure.documentdb.Document;
 import com.microsoft.azure.documentdb.DocumentClient;
 import com.microsoft.azure.documentdb.DocumentClientException;
 import com.microsoft.azure.documentdb.DocumentCollection;
+import com.microsoft.azure.documentdb.FeedOptions;
+import com.microsoft.azure.documentdb.FeedResponse;
 import com.microsoft.azure.documentdb.RequestOptions;
 
 import java.util.ArrayList;
 import java.util.Dictionary;
+import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.Executor;
 
@@ -41,13 +44,13 @@ public class SessionRepository implements ISessionRepository {
     }
 
     private DocumentCollection createCollection(String s) throws DocumentClientException {
-        DocumentCollection newCol = client.queryCollections(db.getSelfLink(), s, null)
+        DocumentCollection newCol = client.queryCollections(db.getSelfLink(), s, new FeedOptions())
                 .getQueryIterator().next();
 
         if(newCol == null){
             DocumentCollection d = new DocumentCollection();
             d.setId(s);
-            newCol = client.createCollection(db.getSelfLink(), d, null).getResource();
+            newCol = client.createCollection(db.getSelfLink(), d, new RequestOptions()).getResource();
             System.out.println("created new collection: " + newCol.getId());
         }
         else {
@@ -59,12 +62,12 @@ public class SessionRepository implements ISessionRepository {
     private void dbCreateDatabase() throws DocumentClientException {
         String databaseId = "neurofeedback";
 
-        Database newDb = client.readDatabases(null).getQueryIterator().next();
+        Database newDb = client.readDatabases(new FeedOptions()).getQueryIterator().next();
 
         if(newDb == null){
             Database d = new Database();
             d.setId(databaseId);
-            newDb = client.createDatabase(d, null).getResource();
+            newDb = client.createDatabase(d, new RequestOptions()).getResource();
             System.out.println("created new database: " + newDb.getId());
         }
         else{
@@ -94,12 +97,33 @@ public class SessionRepository implements ISessionRepository {
 
     @Override
     public List<Session> dbGetAllSessions(boolean onlyActive) {
-        return null;
+        List<Session> sessionList = new ArrayList<>();
+        FeedResponse<Document> response = client.queryDocuments(sessions.getDocumentsLink(),
+                "SELECT * FROM ",//TODO: dunno what is the database node here or whether this syntax could possibly work
+                new FeedOptions());
+        Iterator<Document> i = response.getQueryIterator();
+        while (i.hasNext()){
+            Session s = ((Session) i.next());
+            if(s.isAlive()){
+                sessionList.add(s);
+            }
+        }
+        return sessionList;
     }
 
     @Override
-    public Session dbFindSession(String sessionId) {
-        return null;
+    public Session dbFindSession(String sessionId) throws DocumentClientException {
+        String qry = ""; //TODO: query needs to be completed
+        FeedResponse<Document> response = client.queryDocuments(sessions.getDocumentsLink(),
+                qry,
+                new FeedOptions());
+        Iterator<Document> i = response.getQueryIterator();
+        if(i.hasNext()){
+            return (Session) i.next();
+        }
+        else{
+            throw new DocumentClientException(404, "Not found");
+        }
     }
 
     @Override

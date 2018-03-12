@@ -21,7 +21,7 @@ public interface ISessionRepository {
     void setClient();
     void dbEndSession(Session session) throws DocumentClientException;
     List<Session> dbGetAllSessions(boolean onlyActive);
-    Session dbFindSession(String sessionId);
+    Session dbFindSession(String sessionId) throws DocumentClientException;
 
     List<Reading> getReadingForSession(String sessionId);
 
